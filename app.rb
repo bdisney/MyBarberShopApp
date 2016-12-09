@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
-require 'pony'
+
 
 
 configure do
@@ -93,6 +93,7 @@ post '/contacts' do
 	@message = "Если того требует Ваше обращение и если вы оставили нам свои контакты, то мы обязательно свяжемся с Вами. Ну или не свяжемся. Как пойдет."
 
 	erb :message
+=begin	erb :message
     require 'pony'
 	Pony.mail(
 	    :sender_name => params[:name],
@@ -114,6 +115,8 @@ post '/contacts' do
 	  		}
 	)
 	redirect '/success' 
+=end
 end
+
 
 
