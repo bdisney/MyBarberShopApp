@@ -6,12 +6,12 @@ require 'sqlite3'
 
 configure do
   enable :sessions
-  @db = SQLite3::Database.new 'barbershop.db'
-  @db.execute 'CREATE TABLE IF NOT EXISTS
+  db = SQLite3::Database.new 'barbershop.db'
+  db.execute 'CREATE TABLE IF NOT EXISTS
   "Users" 
   (
   	"id" INTEGER PRIMARY KEY AUTOINCREMENT,
-  	"name" VARCHAR,
+  	"user_name" VARCHAR,
   	"phone" VARCHAR, 
   	"dateStamp" VARCHAR, 
   	"barber" VARCHAR, 
@@ -53,13 +53,13 @@ post '/visit' do
 
 	@user_name = params[:user_name]
 	@phone = params[:phone]
-	@date_time = params[:date_time]
+	@dateStamp = params[:dateStamp]
 	@barber_name = params[:barber_name]
 	@color = params[:color]
 
 	hh = { :user_name => 'Введите имя', 
 		:phone => 'Введите телефон', 
-		:date_time => 'Введите дату и время'
+		:dateStamp => 'Введите дату и время'
 	}
 =begin Ортодоксальный вараинт, который работает выдавая отделные сообщения об Ошибке
 	# для каждой пары ключ-значение
@@ -79,14 +79,27 @@ post '/visit' do
 		return erb :visit
 	end
 
-	f = File.open './public/users.txt', 'a'
-	f.write "\nUser: #{@user_name}, Phone: #{@phone}, Date and time: #{@date_time}, Barber: #{@barber_name}, Choosen color: #{@color}"
-	f.close
+	db = get_db
+    db.execute 'insert into
+			Users
+			(
+					user_name,
+					phone,
+					dateStamp,
+					barber,
+					color
+			)
+			values ( ?, ?, ?, ?, ?)' , [@user_name, @phone, @dateStamp, @barber_name, @color]
+
+	#f = File.open './public/users.txt', 'a'
+	#f.write "\nUser: #{@user_name}, Phone: #{@phone}, Date and time: #{@date_time}, Barber: #{@barber_name}, Choosen color: #{@color}"
+	#f.close
 
 	@title = "Благодарим Вас, #{@user_name.capitalize}!"
 	@message = "#{@barber_name} будет с нетерпением ждать Вас #{@date_time}." 
 	
 	erb :message
+
 end
 
 get '/contacts' do
@@ -105,6 +118,10 @@ post '/contacts' do
 
 	erb :message
 
+end
+
+def get_db
+	SQLite3::Database.new 'barbershop.db'
 end
 
 
