@@ -6,3 +6,5 @@ public/users.txt
 *.jpg
 *.jpg
 *.txt
+*.sqlite
+*.db

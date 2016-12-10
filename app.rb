@@ -1,11 +1,22 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
-
+require 'sqlite3'
 
 
 configure do
   enable :sessions
+  @db = SQLite3::Database.new 'barbershop.db'
+  @db.execute 'CREATE TABLE IF NOT EXISTS
+  "Users" 
+  (
+  	"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  	"name" VARCHAR,
+  	"phone" VARCHAR, 
+  	"dateStamp" VARCHAR, 
+  	"barber" VARCHAR, 
+  	"color" VARCHAR
+  	)'
 end
 
 helpers do
@@ -93,29 +104,7 @@ post '/contacts' do
 	@message = "Если того требует Ваше обращение и если вы оставили нам свои контакты, то мы обязательно свяжемся с Вами. Ну или не свяжемся. Как пойдет."
 
 	erb :message
-=begin	erb :message
-    require 'pony'
-	Pony.mail(
-	    :sender_name => params[:name],
-	    :mail => params[:mail],
-	    :body => params[:body],
-	    :to => 'bold.disney@gmail.com',
-	    :subject => params[:name],
-	    :body => params[:message],
-	    :port => '587',
-	    :via => :smtp,
-	    :via_options => { 
-		    :address              => 'smtp.gmail.com', 
-		    :port                 => '587', 
-		    :enable_starttls_auto => true, 
-		    :user_name            => 'bold.disney', 
-		    :password             => 'my_password', 
-		    :authentication       => :plain, 
-		    :domain               => 'localhost.localdomain'
-	  		}
-	)
-	redirect '/success' 
-=end
+
 end
 
 
