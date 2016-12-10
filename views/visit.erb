@@ -11,9 +11,9 @@ $('#color').simplecolorpicker();
 <form action="/visit" method="POST" role="form">
 <label>Доступные для записи он-лайн мастера:</label>
   <select class="form-control" type='text'  placeholder='Выберите мастера' name='barber_name' autofocus>
-    <option>Walter White</option>
-    <option>Jessie Pinkman</option>
-    <option>Cus Fring</option>
+    <option <%= @barber_name == 'Walter White' ? 'selected' : '' %>>Walter White</option>
+    <option <%= @barber_name == 'Jessie Pinkman' ? 'selected' : '' %>>Jessie Pinkman</option>
+    <option <%= @barber_name == 'Gus Fring' ? 'selected' : '' %>>Gus Fring</option>
   </select>
   <div class="form-group">
     <label>Ваше имя:</label>
