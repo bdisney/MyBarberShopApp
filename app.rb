@@ -109,7 +109,7 @@ end
 
 get '/showusers' do
 	db = get_db
-	@results = db.execute 'SELECT * FROM Users order by id desc' 
+	@results = db.execute 'SELECT * FROM Users order by datestamp asc' 
 
 	erb :showusers
 	
