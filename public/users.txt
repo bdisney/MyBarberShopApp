@@ -1,3 +1,0 @@
-
-User: Irina, Phone: 495 123456789, Date and time: 10.12.16 17.00, Barber: Walter White, Choosen color: #dbadff
-User: 123123, Phone: 123123, Date and time: 123123, Barber: Gus Fring, Choosen color: #7bd148

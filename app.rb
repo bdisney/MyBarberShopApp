@@ -3,6 +3,11 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+def get_db
+	db = SQLite3::Database.new 'barbershop.db'
+	db.results_as_hash = true
+	return db
+end
 
 configure do
   enable :sessions
@@ -45,11 +50,6 @@ get '/login_form' do
 end
 
 post '/visit' do
-#	unless session[:identity]
- #  	session[:previous_url] = request.path
-  #  	@error = 'Извините, для записи он-лайн нужно быть зарегистрированным пользователем.'
-   # 	halt erb(:login_form)
-	#end
 
 	@user_name = params[:user_name]
 	@phone = params[:phone]
@@ -61,16 +61,6 @@ post '/visit' do
 		:phone => 'Введите телефон', 
 		:dateStamp => 'Введите дату и время'
 	}
-=begin Ортодоксальный вараинт, который работает выдавая отделные сообщения об Ошибке
-	# для каждой пары ключ-значение
-	hh.each do |key, value|
-		if params[key] == ''
-			@error = hh[key]
-			return erb :visit
-		end
-	end
-=end
-
 # Более крутой вараинт написания того, что выше, в одну строку
 
 	@error = hh.select {|key,_| params[key] == ""}.values.join(", ")
@@ -91,10 +81,6 @@ post '/visit' do
 			)
 			values ( ?, ?, ?, ?, ?)' , [@user_name, @phone, @dateStamp, @barber_name, @color]
 
-	#f = File.open './public/users.txt', 'a'
-	#f.write "\nUser: #{@user_name}, Phone: #{@phone}, Date and time: #{@date_time}, Barber: #{@barber_name}, Choosen color: #{@color}"
-	#f.close
-
 	@title = "Благодарим Вас, #{@user_name.capitalize}!"
 	@message = "#{@barber_name} будет с нетерпением ждать Вас #{@date_time}." 
 	
@@ -105,6 +91,7 @@ end
 get '/contacts' do
 	erb :contacts
 end
+
 post '/contacts' do
 
 	@user_message = params[:user_message]
@@ -120,9 +107,10 @@ post '/contacts' do
 
 end
 
-def get_db
-	SQLite3::Database.new 'barbershop.db'
+get '/showusers' do
+	db = get_db
+	@results = db.execute 'SELECT * FROM Users order by id desc' 
+
+	erb :showusers
+	
 end
-
-
-

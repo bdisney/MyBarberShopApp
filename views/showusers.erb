@@ -1,0 +1,12 @@
+<h1> Список желающих посетить BarberShop</h1>
+<table class="table table-striped">
+  <% @results.each do |row| %>
+  	<tr>
+  		<td><%= row['user_name'] %></td>
+  		<td><%= row['phone'] %></td>
+  		<td><%= row['dateStamp'] %></td>
+  		<td><%= row['barber'] %></td>
+  		<td><%= row['color'] %></td>
+  	</tr>
+  <% end %>
+</table>  
