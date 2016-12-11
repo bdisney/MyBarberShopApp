@@ -23,7 +23,10 @@ def get_db
 	return db
 end
 
-
+before do
+	db = get_db
+	@barbers = db.execute 'SELECT * FROM Barbers' 
+end
 
 configure do
   db = get_db
@@ -46,12 +49,6 @@ configure do
 	)'
 
 	seed_db db, ['Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mike Ehrmantraut']
-end
-
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Привет незнакомец!'
-  end
 end
 
 get '/index' do

@@ -12,10 +12,13 @@ $('#datetimepicker').datetimepicker();
 <form action="/visit" method="POST" role="form">
 <label>Доступные для записи он-лайн мастера:</label>
   <select class="form-control" type='text'  placeholder='Выберите мастера' name='barber_name' autofocus>
-    <option <%= @barber_name == 'Walter White' ? 'selected' : '' %>>Walter White</option>
-    <option <%= @barber_name == 'Jessie Pinkman' ? 'selected' : '' %>>Jessie Pinkman</option>
-    <option <%= @barber_name == 'Gus Fring' ? 'selected' : '' %>>Gus Fring</option>
+<!-- Подставляет из БД (таблица Barbers) список парикмахеров, с запоминанием выбора пользователя из списка-->
+      <% @barbers.each do |item| %>
+        <option  <%= @barber_name == item['name'] ? 'selected' : '' %>><%= item['name']%></option>
+      <% end%>
+
   </select>
+
   <div class="form-group">
     <label>Ваше имя:</label>
     <input name="user_name" type="text" class="form-control" placeholder="Ваше имя" value="<%=@user_name %>" >
