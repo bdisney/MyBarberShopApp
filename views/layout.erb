@@ -53,7 +53,8 @@
 			    <ul class="nav navbar-nav">
 			      <li><a href="/about">Кто мы?</a></li>
 			      <li><a href="/visit">Записаться</a></li>
-			      <li><a href="/ref">Отзывы!</a></li>
+			      <li><a href="/showusers">Кто придет?</a></li>
+			      <!-- <li><a href="/ref">Отзывы!</a></li> -->
  			      <li><a href="/contacts">Контакты</a></li>
 			    </ul>
 				<form class="navbar-form navbar-right">
@@ -79,14 +80,11 @@
 			 </div><!--/.nav-collapse -->
 			</nav>
 			<div>
-			      <%if @error then %>
+			      <%if @error && @error.length > 0 then %>
 			          <div class="alert alert-danger"><%=@error%></div>
 			      <% end %>
 			      <%= yield %>
 			</div>
-
-	</div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		</div>
     </body>
 </html>
